@@ -52,30 +52,34 @@ public class MainClass {
                 day = in.nextInt();
                 month = in.nextInt();
                 year = in.nextInt();
-                System.out.println(LocalDate.checkDate(day, month, year, cent-1));
             }
             while(!LocalDate.checkDate(day, month, year, cent-1));
         
             Date2 = new LocalDate(day, month, year, cent-1);
         
             // difference
-            if(LocalDate.isBiggerOrEqual(Date2, Date1))
+            if(LocalDate.isYongerOrEqual(Date2, Date1))
             {
                 LocalDate Difference = LocalDate.countDifference(Date2, Date1);
-        
-                System.out.println(Difference.day);
-                System.out.println(Difference.month);
-                System.out.println(Difference.year);
-                System.out.println(Difference.cent);
+                System.out.println("====================================");
+                System.out.println("Difference between these dates is:");
+                System.out.println(Difference.day+" days");
+                System.out.println(Difference.month+" monthes");
+                System.out.println(Difference.year+" years");
+                System.out.println(Difference.cent+" centuries");
+                System.out.println("====================================");
+                break;
             }
         
             else
             {
                 System.out.println("Exception: Yonger Date is elder then Elder one");
                 System.out.println("Enter dates again");
+            
+            
             }
-        }
-            while(!LocalDate.isBiggerOrEqual(Date2, Date1));
+            
+
+        }while(true);
     }
-    
 }

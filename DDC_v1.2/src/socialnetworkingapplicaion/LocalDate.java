@@ -27,29 +27,29 @@ public class LocalDate {
         this.cent = cent;
     }
     
-    static boolean isBiggerOrEqual(LocalDate firstDate, LocalDate secondDate){
+    static boolean isYongerOrEqual(LocalDate firstDate, LocalDate secondDate){
         return dateToDays(firstDate)+36530*firstDate.cent>=dateToDays(secondDate)+36530*secondDate.cent;
     }
     
-    static long differanceInDays(LocalDate firstDate, LocalDate secondDate){
-        long differance;
+    static long differenceInDays(LocalDate firstDate, LocalDate secondDate){
+        long difference;
         long days1, days2;
         
         days1 = dateToDays(firstDate);
         days2 = dateToDays(secondDate);
         
-        if((days1-days2)>0&&firstDate.cent<=secondDate.cent)
+        if((days1-days2)>0)
         {
-            differance =days1-days2;
+            difference =days1-days2;
         }
         else
         {
-            differance = days1+36530-days2;
+            difference = days1+36530-days2;
             firstDate.cent--;
         }
         
         
-        return differance;
+        return difference;
     }
     
     static long dateToDays(LocalDate date){
@@ -82,18 +82,17 @@ public class LocalDate {
         return Days;
     }
     
-    static LocalDate countDifferance(LocalDate firstDate, LocalDate secondDate){
+    static LocalDate countDifference(LocalDate firstDate, LocalDate secondDate){
         
-        LocalDate differance = new LocalDate();
-        long dayDifferance;
-        dayDifferance = LocalDate.dateToDays(firstDate)-LocalDate.dateToDays(secondDate);
-        
+        LocalDate difference = new LocalDate();
+        long dayDifference;
+        dayDifference = LocalDate.differenceInDays(firstDate, secondDate);
         int leapYearCounter = (secondDate.year+secondDate.cent*100+1)%4;
         int yearCapacity = 366;
-        while(dayDifferance/yearCapacity!=0){
+        while(dayDifference/yearCapacity!=0){
             
-            dayDifferance-= (leapYearCounter==0) ? 366 : 365;
-            differance.year++;
+            dayDifference-= (leapYearCounter==0) ? 366 : 365;
+            difference.year++;
             leapYearCounter = (leapYearCounter==3) ? 0 : leapYearCounter+1;
             yearCapacity = (leapYearCounter==3) ? 366 : 365;
             
@@ -101,20 +100,22 @@ public class LocalDate {
         
         int doubleLeaping = 0;
         int monthCapacity = 31;
-        while(dayDifferance/monthCapacity!=0){
+        while(dayDifference/monthCapacity!=0){
             
-            dayDifferance-= (monthCapacity==31) ? 31 : 30;
-            differance.month++;
+            dayDifference-= (monthCapacity==31) ? 31 : 30;
+            difference.month++;
             monthCapacity = (monthCapacity==31) ? 30 : 31;
             if(doubleLeaping==6) monthCapacity = 31;
             doubleLeaping++;
         }
         
-        differance.day = (differance.month>=2) ? (int)dayDifferance+2 : (int)dayDifferance;
+        difference.day = (difference.month>=2) ? (int)dayDifference+2 : (int)dayDifference;
         
-        differance.cent = firstDate.cent - secondDate.cent;
+        difference.cent = firstDate.cent - secondDate.cent;
+        difference.cent += difference.year/100;
+        difference.year %= 100;
         
-        return differance;
+        return difference;
     }
     
     public static boolean checkDate(int day, int month, int year, int cent){
