@@ -57,7 +57,7 @@ public class DateManipulation {
         long dayDifference;
         dayDifference = DateManipulation.differenceInDays(firstDate, secondDate);
         while(dayDifference/36530!=0){
-            difference.cent += 36530;
+            difference.cent += 1;
             dayDifference -= 36530;
         }
         int leapYearCounter = (secondDate.year + secondDate.cent * 100 + 1) % 4;

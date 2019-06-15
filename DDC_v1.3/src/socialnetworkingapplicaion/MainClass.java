@@ -16,7 +16,7 @@ import java.util.logging.Logger;
  * @author Дмитрий
  */
 public class MainClass {
-    
+
     static ArrayList<HistoryRecord> history;
 
     public static void main(String[] args) {
@@ -46,7 +46,7 @@ public class MainClass {
                 case "3":
                     convertDateToDays(in);
                     break;
-                    case "show history":
+                case "show history":
                 case "4":
                     showHistory();
                     break;
@@ -149,14 +149,14 @@ public class MainClass {
                     System.out.println("Error, invalid date, try again");
                 }
             } while (!DateManipulation.checkDate(day, month, year, cent - 1));
-            
+
             Date2 = new Date(day, month, year, cent - 1);
-            
+
             // Relust
             if (DateManipulation.isYongerOrEqual(Date2, Date1)) {
                 System.out.println(Date1.cent);
                 System.out.println(Date2.cent);
-                long Difference = DateManipulation.dateToDays(DateManipulation.countDifference(Date2, Date1)) + (Date2.cent - Date1.cent)*36530;
+                long Difference = DateManipulation.dateToDays(DateManipulation.countDifference(Date2, Date1)) + (Date2.cent - Date1.cent) * 36530;
                 System.out.println("====================================");
                 System.out.println("Difference between these dates is:");
                 System.out.println(Difference + " days");
@@ -206,13 +206,13 @@ public class MainClass {
             writeToHistory("convertDateToDays", Date1);
             // printring menu
             printMenu();
-            
+
             break;
 
         } while (true);
     }
-    
-    static void printMenu(){
+
+    static void printMenu() {
         System.out.println();
         System.out.println("1 - count difference in date");
         System.out.println("2 - count difference in days");
@@ -222,44 +222,36 @@ public class MainClass {
     }
 
     static void writeToHistory(String type, Date... arrayOfDates) {
-        history = getHistory();
-        if (arrayOfDates[1] == null) {
-            HistoryRecord newRecord = new HistoryRecord(arrayOfDates[0], type);
-            try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("history.txt"))) { 
-                history.forEach(d->{
-                    try {
-                        oos.writeObject(d);
-                        oos.reset();
-                    } catch (IOException ex) {
-                        System.out.println(ex.getMessage());
-                    }    
-                });
-                oos.reset();
+
+        HistoryRecord newRecord = new HistoryRecord(arrayOfDates[0], arrayOfDates[1], type);
+        if (new File("history.txt").exists()) {
+            try (AppendableObjectOutputStream oos = new AppendableObjectOutputStream(new FileOutputStream("history.txt", true))) {
                 oos.writeObject(newRecord);
             } catch (IOException ex) {
                 System.out.println(ex.getMessage());
                 System.out.println("SOMTH WENT WRONG WHILE SERIALIZATION");
             }
-
         } else {
-            HistoryRecord newRecord = new HistoryRecord(arrayOfDates[0], arrayOfDates[1], type);
-            try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("history.txt", true))) {   
+            try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("history.txt"))) {
                 oos.writeObject(newRecord);
             } catch (IOException ex) {
                 System.out.println(ex.getMessage());
                 System.out.println("SOMTH WENT WRONG WHILE SERIALIZATION");
             }
         }
+        history = getHistory();
 
     }
-    
-    static ArrayList<HistoryRecord> getHistory(){
+
+    static ArrayList<HistoryRecord> getHistory() {
         ArrayList<HistoryRecord> recorded = new ArrayList();
-        try(ObjectInputStream ois = new ObjectInputStream(new FileInputStream("history.txt"))){
-            try{
-                while(true) recorded.add((HistoryRecord) ois.readObject());
-            
-            }catch (EOFException eofex){
+        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream("history.txt"))) {
+            try {
+                while (true) {
+                    recorded.add((HistoryRecord) ois.readObject());
+                }
+
+            } catch (EOFException eofex) {
                 System.out.println(eofex.getMessage());
                 System.out.println("eofex");
             }
@@ -270,12 +262,16 @@ public class MainClass {
         }
         return null;
     }
-    
-    static void showHistory(){
+
+    static void showHistory() {
         history.forEach((d) -> {
-            DateManipulation.printDateInfo(d.date1);
-            DateManipulation.printDateInfo(d.date2);
+            System.out.println("=====================");
+            System.out.println("Request:");
+            System.out.println(d.getOption());
+            DateManipulation.printDateInfo(d.getDate1());
+            DateManipulation.printDateInfo(d.getDate2());
+            System.out.println("======================");
         });
     }
-    
+
 }
