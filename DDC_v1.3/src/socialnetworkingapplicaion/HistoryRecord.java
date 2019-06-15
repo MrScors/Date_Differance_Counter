@@ -10,18 +10,33 @@ import java.io.*;
  * @author Дмитрий
  */
 public class HistoryRecord implements Serializable{
-    String typeOfAction;
-    Date date1;
-    Date date2;
-    HistoryRecord(Date date, String type){
+    
+    //fields
+    private final String option;
+    private final Date date1;
+    private final Date date2;
+    
+    //constructors
+    HistoryRecord(Date date, String option){
         this.date1 = new Date(date);
         this.date2 = null;
-        this.typeOfAction = type;
+        this.option = option;
     }
-    HistoryRecord(Date date1, Date date2, String type){
+    HistoryRecord(Date date1, Date date2, String option){
         this.date1 = new Date(date1);
         this.date2 = new Date(date2);
-        this.typeOfAction = type;
+        this.option = option;
+    }
+    
+    //gets
+    Date getDate1(){
+        return date1;
+    }
+    Date getDate2(){
+        return date2;
+    }
+    String getOption(){
+        return option;
     }
     
 }
