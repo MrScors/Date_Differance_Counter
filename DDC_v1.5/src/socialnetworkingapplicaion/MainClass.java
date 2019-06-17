@@ -8,8 +8,6 @@ package socialnetworkingapplicaion;
 import java.util.Scanner;
 import java.io.*;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *

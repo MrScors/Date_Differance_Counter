@@ -10,17 +10,17 @@ package socialnetworkingapplicaion;
  * @author Дмитрий
  */
 public class DateManipulation {
-    static boolean isYongerOrEqual(Date firstDate, Date secondDate) {
+    public static boolean isYongerOrEqual(Date firstDate, Date secondDate) {
         return dateToDays(firstDate) + 36530 * firstDate.cent >= dateToDays(secondDate) + 36530 * secondDate.cent;
     }
 
-    static long differenceInDays(Date firstDate, Date secondDate) {
+    public static long differenceInDays(Date firstDate, Date secondDate) {
          
         return  dateToDays(firstDate)+firstDate.cent*36530 - dateToDays(secondDate)-secondDate.cent*36530;
 
     }
 
-    static long dateToDays(Date date) {
+    public static long dateToDays(Date date) {
         long Days = 0;
 
         int years = date.year;
@@ -46,12 +46,12 @@ public class DateManipulation {
             }
             doubleLeaping++;
         }
-
+        if(date.month>2) days-=2;
         Days += days;
         return Days;
     }
 
-    static Date countDifference(Date firstDate, Date secondDate) {
+    public static Date countDifference(Date firstDate, Date secondDate) {
 
         Date difference = new Date();
         long dayDifference;
@@ -141,7 +141,7 @@ public class DateManipulation {
         return false;
     }
     
-    static void printDateInfo(Date date){
+    public static void printDateInfo(Date date){
         System.out.println(date.day + "/" + date.month + "/" + date.year + "/" + date.cent);
     }
 }

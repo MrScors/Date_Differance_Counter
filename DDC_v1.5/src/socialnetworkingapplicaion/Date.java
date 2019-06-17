@@ -15,18 +15,18 @@ public class Date implements Serializable{
     int year;
     int cent;
     
-    Date() {
+    public Date() {
 
     }
 
-    Date(int day, int month, int year, int cent) {
+    public Date(int day, int month, int year, int cent) {
         this.day = day;
         this.month = month;
         this.year = year;
         this.cent = cent;
     }
     
-    Date(Date date) {
+    public Date(Date date) {
         this.day = date.day;
         this.month = date.month;
         this.year = date.year;
